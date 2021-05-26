@@ -28,7 +28,7 @@
 
 <!-- SHADOW_SECTION_DESCRIPTION_LONG_END -->
 
-The built-in _path_ module provides utilities for working with file and directory paths in Node.js. The default operation
+The built-in [`path` module](https://nodejs.org/api/path.html) in Node.js provides utilities for working with file and directory paths in Node.js. The default operation
 of it varies [based on the operating system](https://nodejs.org/api/path.html#path_windows_vs_posix) on which Node.js is running.
 
 While this is generally a good thing, there are situations where you might want to normalize paths such that they always follow POSIX formatting.
