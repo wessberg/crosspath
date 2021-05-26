@@ -87,7 +87,11 @@ export function join(...paths: string[]): string {
  * when the path contains a trailing slash, it is preserved
  */
 export function normalize(p: string): string {
-	return ensurePosixReturnValue("normalize", arguments);
+	const result = ensurePosixReturnValue("normalize", arguments);
+	if (p.startsWith("./") && !result.startsWith("./")) {
+		return "./" + result;
+	}
+	return result;
 }
 
 /**

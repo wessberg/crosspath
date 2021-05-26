@@ -31,3 +31,7 @@ test("Formatting a win32-formatted ParsedPath generates a POSIX-formatted string
 		"C:/Users/foo/bar.js"
 	);
 });
+
+test("Normalizing './foo' still yields './foo'. #1", async t => {
+	t.deepEqual(path.normalize("./foo"), "./foo");
+});
