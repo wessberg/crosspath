@@ -1,5 +1,5 @@
 import test from "ava";
-import path from "../src/index";
+import * as path from "../src/index";
 
 test("Dotting through the 'posix' recursive self-references will still point to the shimmed methods. #1", async t => {
 	t.deepEqual(path.posix.posix.posix, path.posix);

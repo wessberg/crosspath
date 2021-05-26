@@ -173,10 +173,3 @@ export const win32: path.PlatformPath = {
 		return this;
 	}
 };
-
-export default {
-	...posix,
-	posix,
-	win32,
-	native: path
-};

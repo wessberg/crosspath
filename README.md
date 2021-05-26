@@ -125,7 +125,7 @@ Simply import what you need, exactly as you would with the `path` module:
 import {join, relative} from "crosspath";
 
 // or simply:
-import path from "crosspath";
+import * as path from "crosspath";
 
 // Becomes 'C:/foo/bar'
 path.join("C:\\foo", "\\bar");
