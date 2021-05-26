@@ -121,9 +121,10 @@ $ pnpm add crosspath
 Simply import what you need, exactly as you would with the `path` module:
 
 ```ts
+// Import just what you need:
 import {join, relative} from "crosspath";
 
-// or simply
+// or simply:
 import path from "crosspath";
 
 // Becomes 'C:/foo/bar'
