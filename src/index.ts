@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params,@typescript-eslint/no-unused-vars */
 import path from "path";
 
 /**
@@ -16,38 +17,27 @@ export function ensurePosix(p: string): string {
 }
 
 /**
- * Wraps all the given method names with a call to ensurePosix
+ * Picks the most fitting path implementation based on the given argument
  */
-function ensurePosixReturnValues<MethodName extends keyof path.PlatformPath>(methodNames: MethodName[]): {[Key in MethodName]: path.PlatformPath[Key]} {
-	const obj = {} as {[Key in MethodName]: path.PlatformPath[Key]};
-	for (const methodName of methodNames) {
-		Object.assign(obj, {
-			[methodName]() {
-				// eslint-disable-next-line prefer-rest-params
-				const looksLikeWindowsPaths = [...arguments].some(argument => typeof argument === "string" && looksLikeWindowsPath(argument));
-
-				// eslint-disable-next-line prefer-rest-params
-				return ensurePosix(((looksLikeWindowsPaths ? path.win32[methodName] : path[methodName]) as CallableFunction)(...arguments));
-			}
-		});
+function pickPathImplementation(args: unknown[] | IArguments): path.PlatformPath {
+	if ([...args].some(argument => typeof argument === "string" && looksLikeWindowsPath(argument))) {
+		return path.win32;
 	}
-	return obj;
+	return path;
 }
 
 /**
- * Wraps all arguments in a call to ensurePosix before being passed back to their respective posix methods
+ * Wraps the return value in ensurePosix
  */
-function ensurePosixArguments<MethodName extends keyof path.PlatformPath>(methodNames: MethodName[]): {[Key in MethodName]: path.PlatformPath[Key]} {
-	const obj = {} as {[Key in MethodName]: path.PlatformPath[Key]};
-	for (const methodName of methodNames) {
-		Object.assign(obj, {
-			[methodName]() {
-				// eslint-disable-next-line prefer-rest-params
-				return (path.posix[methodName] as CallableFunction)(...[...arguments].map(argument => (typeof argument === "string" ? ensurePosix(argument) : argument)));
-			}
-		});
-	}
-	return obj;
+function ensurePosixReturnValue<MethodName extends keyof path.PlatformPath>(methodName: MethodName, args: IArguments) {
+	return ensurePosix((pickPathImplementation(args)[methodName] as CallableFunction)(...args));
+}
+
+/**
+ * Wraps all string arguments in ensurePosix
+ */
+function ensurePosixArgument<MethodName extends keyof path.PlatformPath>(methodName: MethodName, args: IArguments) {
+	return (path.posix[methodName] as CallableFunction)(...[...args].map(arg => (typeof arg === "string" ? ensurePosix(arg) : arg)));
 }
 
 /**
@@ -57,14 +47,114 @@ function looksLikeWindowsPath(p: string): boolean {
 	return /\\/.test(p);
 }
 
-const posixBase = {
-	...path.posix,
-	...ensurePosixArguments(["parse", "isAbsolute"]),
-	...ensurePosixReturnValues(["join", "normalize", "relative", "resolve", "dirname", "basename", "extname", "format", "toNamespacedPath"])
-};
+/**
+ * Returns an object from a path string - the opposite of format().
+ */
+export function parse(p: string): path.ParsedPath {
+	return ensurePosixArgument("parse", arguments);
+}
+
+/**
+ * Return the extension of the path, from the last '.' to
+ * end of string in the last portion of the path. If there is no '.'
+ * in the last portion of the path or the first character of it is '.',
+ * then it returns an empty string
+ */
+export function extname(p: string): string {
+	return ensurePosixArgument("extname", arguments);
+}
+
+/**
+ * Determines whether {path} is an absolute path. An absolute path will always resolve to the same location,
+ * regardless of the working directory.
+ */
+export function isAbsolute(p: string): boolean {
+	return ensurePosixArgument("isAbsolute", arguments);
+}
+
+/**
+ * Join all arguments together and normalize the resulting path.
+ * Arguments must be strings. In v0.8, non-string arguments were silently
+ * ignored. In v0.10 and up, an exception is thrown.
+ */
+export function join(...paths: string[]): string {
+	return ensurePosixReturnValue("join", arguments);
+}
+
+/**
+ * Normalize a string path, reducing '..' and '.' parts.
+ * When multiple slashes are found, they're replaced by a single one;
+ * when the path contains a trailing slash, it is preserved
+ */
+export function normalize(p: string): string {
+	return ensurePosixReturnValue("normalize", arguments);
+}
+
+/**
+ * Solve the relative path from {from} to {to}. At times we have two absolute paths,
+ * and we need to derive the relative path from one to the other.
+ * This is actually the reverse transform of path.resolve
+ */
+export function relative(from: string, to: string): string {
+	return ensurePosixReturnValue("relative", arguments);
+}
+
+/**
+ * The right-most parameter is considered {to}. Other parameters are considered an array of {from}.
+ * Starting from leftmost {from} parameter, resolves {to} to an absolute path.
+ * If {to} isn't already absolute, {from} arguments are prepended in right to left order,
+ * until an absolute path is found. If after using all {from} paths still no absolute path is found,
+ * the current working directory is used as well. The resulting path is normalized, and trailing
+ * slashes are removed unless the path gets resolved to the root directory
+ */
+export function resolve(...pathSegments: string[]): string {
+	return ensurePosixReturnValue("resolve", arguments);
+}
+
+/**
+ * Return the directory name of a path. Similar to the Unix dirname command.
+ */
+export function dirname(p: string): string {
+	return ensurePosixReturnValue("dirname", arguments);
+}
+
+/**
+ * Return the last portion of a path. Similar to the Unix basename command.
+ * Often used to extract the file name from a fully qualified path.
+ */
+export function basename(p: string, ext?: string): string {
+	return ensurePosixReturnValue("basename", arguments);
+}
+
+/**
+ * Returns a path string from an object - the opposite of parse().
+ */
+export function format(pP: path.FormatInputPathObject): string {
+	return ensurePosixReturnValue("format", arguments);
+}
+
+/**
+ * The method is non-operational and always returns a POSIX-formatted path with no further modifications,
+ * as that is how this function generally works for all POSIX-based systems
+ */
+export function toNamespacedPath(p: string): string {
+	return ensurePosixReturnValue("toNamespacedPath", arguments);
+}
 
 export const posix: path.PlatformPath = {
-	...posixBase,
+	sep: path.posix.sep,
+	delimiter: path.posix.delimiter,
+	parse,
+	isAbsolute,
+	join,
+	extname,
+	normalize,
+	relative,
+	resolve,
+	dirname,
+	basename,
+	format,
+	toNamespacedPath,
 	get posix() {
 		return this;
 	},
@@ -85,7 +175,7 @@ export const win32: path.PlatformPath = {
 };
 
 export default {
-	...posixBase,
+	...posix,
 	posix,
 	win32,
 	native: path
