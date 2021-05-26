@@ -1,3 +1,9 @@
+## [0.0.6](https://github.com/wessberg/crosspath/compare/v0.0.5...v0.0.6) (2021-05-26)
+
+### Features
+
+- **sourcemaps:** do not generate declaration maps ([25111c5](https://github.com/wessberg/crosspath/commit/25111c5736ece00ffaa907e5b6e48606d2eae03d))
+
 ## [0.0.5](https://github.com/wessberg/crosspath/compare/v0.0.4...v0.0.5) (2021-05-26)
 
 ### Features
