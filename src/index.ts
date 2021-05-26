@@ -1,6 +1,15 @@
 /* eslint-disable prefer-rest-params,@typescript-eslint/no-unused-vars */
 import path from "path";
 
+export const DRIVE_LETTER_REGEXP = /^\w:/;
+
+/**
+ * Returns true if the given path looks like a Windows path
+ */
+function looksLikeWindowsPath(p: string): boolean {
+	return /\\/.test(p) || DRIVE_LETTER_REGEXP.test(p);
+}
+
 /**
  * Ensures that the given path follows posix file names
  */
@@ -41,13 +50,6 @@ function ensurePosixArgument<MethodName extends keyof path.PlatformPath>(methodN
 }
 
 /**
- * Returns true if the given path looks like a Windows path
- */
-function looksLikeWindowsPath(p: string): boolean {
-	return /\\/.test(p);
-}
-
-/**
  * Returns an object from a path string - the opposite of format().
  */
 export function parse(p: string): path.ParsedPath {
@@ -69,7 +71,7 @@ export function extname(p: string): string {
  * regardless of the working directory.
  */
 export function isAbsolute(p: string): boolean {
-	return ensurePosixArgument("isAbsolute", arguments);
+	return pickPathImplementation(arguments).isAbsolute(p);
 }
 
 /**
