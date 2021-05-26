@@ -1,3 +1,9 @@
+## [0.0.5](https://github.com/wessberg/crosspath/compare/v0.0.4...v0.0.5) (2021-05-26)
+
+### Features
+
+- **sourcemaps:** publish files in src folder to make declaration maps work ([9ba7a1f](https://github.com/wessberg/crosspath/commit/9ba7a1f5d200b10914f99550152b7b743ee3030c))
+
 ## [0.0.4](https://github.com/wessberg/crosspath/compare/v0.0.3...v0.0.4) (2021-05-26)
 
 ## [0.0.3](https://github.com/wessberg/crosspath/compare/v0.0.2...v0.0.3) (2021-05-26)
