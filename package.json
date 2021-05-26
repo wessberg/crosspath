@@ -74,12 +74,12 @@
 		"npm-check-updates": "^11.5.13",
 		"tslib": "^2.2.0"
 	},
-	"main": "./dist/lib/cjs/index.js",
-	"module": "./dist/lib/esm/index.js",
-	"browser": "./dist/lib/esm/index.js",
-	"types": "./dist/lib/esm/index.d.ts",
-	"typings": "./dist/lib/esm/index.d.ts",
-	"es2015": "./dist/lib/esm/index.js",
+	"main": "./dist/cjs/index.js",
+	"module": "./dist/esm/index.js",
+	"browser": "./dist/esm/index.js",
+	"types": "./dist/esm/index.d.ts",
+	"typings": "./dist/esm/index.d.ts",
+	"es2015": "./dist/esm/index.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/wessberg/crosspath.git"

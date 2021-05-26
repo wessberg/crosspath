@@ -173,3 +173,8 @@ export const win32: path.PlatformPath = {
 		return this;
 	}
 };
+
+/**
+ * The raw, unaltered path module
+ */
+export const native = path;
