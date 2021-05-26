@@ -1,3 +1,9 @@
+## [0.0.3](https://github.com/wessberg/crosspath/compare/v0.0.2...v0.0.3) (2021-05-26)
+
+### Bug Fixes
+
+- add missing export ([d00372a](https://github.com/wessberg/crosspath/commit/d00372aab67b1aa1faf12383284f88049c2d7f96))
+
 ## [0.0.2](https://github.com/wessberg/crosspath/compare/v0.0.1...v0.0.2) (2021-05-26)
 
 ### Bug Fixes
