@@ -31,7 +31,8 @@
 		"normalize"
 	],
 	"files": [
-		"dist/**/*.*"
+		"dist/**/*.*",
+		"src/**/*.*"
 	],
 	"contributors": [
 		{
