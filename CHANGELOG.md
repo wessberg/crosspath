@@ -1,3 +1,9 @@
+## [0.0.8](https://github.com/wessberg/crosspath/compare/v0.0.7...v0.0.8) (2021-05-26)
+
+### Bug Fixes
+
+- fix problem where 'isAbsolute' would sometimes return false for absolute windows paths ([81ec169](https://github.com/wessberg/crosspath/commit/81ec169b791602454cdaaa53cb3f88a84fedb35b))
+
 ## [0.0.7](https://github.com/wessberg/crosspath/compare/v0.0.6...v0.0.7) (2021-05-26)
 
 ### Bug Fixes
