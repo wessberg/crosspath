@@ -1,3 +1,9 @@
+## [0.0.7](https://github.com/wessberg/crosspath/compare/v0.0.6...v0.0.7) (2021-05-26)
+
+### Bug Fixes
+
+- normalizing './foo' should still yield './foo' ([8c2ca3b](https://github.com/wessberg/crosspath/commit/8c2ca3bcd2e051468165ff88d168b1d80aacfb1e))
+
 ## [0.0.6](https://github.com/wessberg/crosspath/compare/v0.0.5...v0.0.6) (2021-05-26)
 
 ### Features
