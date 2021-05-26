@@ -1,7 +1,7 @@
 /* eslint-disable prefer-rest-params,@typescript-eslint/no-unused-vars */
 import path from "path";
 
-export const DRIVE_LETTER_REGEXP = /^\w:/;
+const DRIVE_LETTER_REGEXP = /^\w:/;
 
 /**
  * Returns true if the given path looks like a Windows path
