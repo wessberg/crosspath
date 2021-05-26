@@ -1,7 +1,7 @@
 {
 	"name": "crosspath",
 	"version": "1.1.0",
-	"description": "A path utility that has an identical API to the path module, but always normalizes to POSIX (including converting backslashes to forward slashes)",
+	"description": "A wrapper around the path module that always normalizes to POSIX (including converting backslashes to forward slashes)",
 	"scripts": {
 		"generate:sandhog": "sandhog all --yes",
 		"generate:changelog": "standard-changelog --first-release",
@@ -28,11 +28,7 @@
 		"slash",
 		"normalize"
 	],
-	"bin": {
-		"cjstoesm": "bin/cjstoesm"
-	},
 	"files": [
-		"bin/**/*.*",
 		"dist/**/*.*"
 	],
 	"contributors": [

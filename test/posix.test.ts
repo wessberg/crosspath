@@ -11,10 +11,23 @@ test("Correctly converts a win32-formatted string to POSIX. #1", async t => {
 
 test("Parsing a win32-formatted string generates POSIX-formatted parts. #1", async t => {
 	t.deepEqual(path.parse("C:\\Users\\foo\\bar.js"), {
-		base: "C:/Users/foo/bar.js",
-		dir: "",
+		root: "",
+		dir: "C:/Users/foo",
+		base: "bar.js",
 		ext: ".js",
-		name: "C:/Users/foo/bar",
-		root: ""
+		name: "bar"
 	});
+});
+
+test("Formatting a win32-formatted ParsedPath generates a POSIX-formatted string. #1", async t => {
+	t.deepEqual(
+		path.format({
+			root: "",
+			dir: "C:\\Users\\foo",
+			base: "bar.js",
+			ext: ".js",
+			name: "bar"
+		}),
+		"C:/Users/foo/bar.js"
+	);
 });
