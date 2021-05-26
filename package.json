@@ -1,6 +1,6 @@
 {
 	"name": "crosspath",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A wrapper around the path module that always normalizes to POSIX (including converting backslashes to forward slashes)",
 	"scripts": {
 		"generate:sandhog": "sandhog all --yes",
