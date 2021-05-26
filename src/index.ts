@@ -178,3 +178,10 @@ export const win32: path.PlatformPath = {
  * The raw, unaltered path module
  */
 export const native = path;
+
+export default {
+	...posix,
+	posix,
+	win32,
+	native
+};
