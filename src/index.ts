@@ -1,7 +1,10 @@
 /* eslint-disable prefer-rest-params,@typescript-eslint/no-unused-vars */
 import path from "path";
+import {platform} from "os";
 
+const ROOT_DIRECTORY = path.parse(process.cwd()).root;
 const DRIVE_LETTER_REGEXP = /^\w:/;
+const PLATFORM = platform();
 
 /**
  * Returns true if the given path looks like a Windows path
@@ -14,15 +17,16 @@ function looksLikeWindowsPath(p: string): boolean {
  * Ensures that the given path follows posix file names
  */
 export function ensurePosix(p: string): string {
-	const isExtendedLengthPath = /^\\\\\?\\/.test(p);
+	const withDriveLetter = ensureHasDriveLetterIfRequired(p);
+	const isExtendedLengthPath = /^\\\\\?\\/.test(withDriveLetter);
 	// eslint-disable-next-line no-control-regex
-	const hasNonAscii = /[^\u0000-\u0080]+/.test(p);
+	const hasNonAscii = /[^\u0000-\u0080]+/.test(withDriveLetter);
 
 	if (isExtendedLengthPath || hasNonAscii) {
-		return p;
+		return withDriveLetter;
 	}
 
-	return p.replace(/\\/g, "/");
+	return withDriveLetter.replace(/\\/g, "/");
 }
 
 /**
@@ -145,6 +149,18 @@ export function format(pP: path.FormatInputPathObject): string {
  */
 export function toNamespacedPath(p: string): string {
 	return ensurePosixReturnValue("toNamespacedPath", arguments);
+}
+
+/**
+ * For some tooling, it is important that all absolute paths include the drive letter on Windows,
+ * even though the drive letter is technically optional
+ */
+function ensureHasDriveLetterIfRequired(p: string): string {
+	if (PLATFORM !== "win32") return p;
+	if (DRIVE_LETTER_REGEXP.test(p)) return p;
+	if (p.startsWith(ROOT_DIRECTORY)) return p;
+	if (!path.win32.isAbsolute(path.win32.normalize(p))) return p;
+	return path.win32.join(ROOT_DIRECTORY, p);
 }
 
 export const posix: path.PlatformPath = {
