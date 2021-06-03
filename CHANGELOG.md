@@ -1,3 +1,10 @@
+## [0.0.9](https://github.com/wessberg/crosspath/compare/v0.0.8...v0.0.9) (2021-06-03)
+
+### Bug Fixes
+
+- don't export DRIVE_LETTER_REGEXP ([d3ff6fe](https://github.com/wessberg/crosspath/commit/d3ff6fe30a0a333ef1dba5260b7a109a146a6dd4))
+- ensure absolute paths on Windows include the drive letter since some tooling requires this ([f68afa3](https://github.com/wessberg/crosspath/commit/f68afa312bf1c18b2f62c1db0fd293555bd1711d))
+
 ## [0.0.8](https://github.com/wessberg/crosspath/compare/v0.0.7...v0.0.8) (2021-05-26)
 
 ### Bug Fixes
