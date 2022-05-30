@@ -1,3 +1,7 @@
+# [2.0.0](https://github.com/wessberg/crosspath/compare/v1.0.0...v2.0.0) (2022-05-30)
+
+
+
 # [1.0.0](https://github.com/wessberg/crosspath/compare/v0.0.9...v1.0.0) (2021-11-09)
 
 
