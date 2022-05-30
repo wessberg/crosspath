@@ -1,10 +1,11 @@
 /* eslint-disable prefer-rest-params,@typescript-eslint/no-unused-vars */
 import path from "path";
-import {platform} from "os";
+import os from "os";
 
+const LEADING_SLASH_BEFORE_DRIVE_LETTER_REGEXP = /(^\/\w:\/)|(^\/\w:\\)/;
 const DRIVE_LETTER_PREFIX = path.parse(process.cwd()).root;
 const DRIVE_LETTER_REGEXP = /^\w:/;
-const PLATFORM = platform();
+const PLATFORM = os.platform();
 
 /**
  * Returns true if the given path looks like a Windows path
@@ -26,6 +27,24 @@ export function ensurePosix(p: string): string {
 	}
 
 	return p.replace(/\\/g, "/");
+}
+
+export function urlToFilename (url: string|URL): string {
+	let urlString = typeof url === "string" ? url : url.pathname;
+
+	// If the URL doesn't start with the file protocol, return it as-is
+	if (!urlString.startsWith("file:")) {
+		return normalize(urlString);
+	}
+	if (urlString.startsWith(`file://`)) {
+		urlString = urlString.slice(`file://`.length);
+	}
+
+	// On Windows, it might be malformated and look like /C:\Users\...
+	if (LEADING_SLASH_BEFORE_DRIVE_LETTER_REGEXP.test(urlString)) {
+		urlString = urlString.slice(1);
+	}
+	return normalize(urlString);
 }
 
 /**
@@ -205,5 +224,6 @@ export default {
 	posix,
 	win32,
 	native,
-	includeDriveLetter
+	includeDriveLetter,
+	urlToFilename
 };

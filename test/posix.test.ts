@@ -1,5 +1,5 @@
 import test from "ava";
-import * as path from "../src/index";
+import * as path from "../src/index.js";
 
 test("Dotting through the 'posix' recursive self-references will still point to the shimmed methods. #1", async t => {
 	t.deepEqual(path.posix.posix.posix, path.posix);
@@ -42,4 +42,16 @@ test("Testing for absolute paths works, including on an POSIX-formatted windows 
 
 test("Testing for absolute paths works, including on an POSIX-formatted windows path. #2", async t => {
 	t.true(path.isAbsolute(`D:\\a\\b\\c\\#d`));
+});
+
+test("Converting an URL to a local filename works properly. #1", async t => {
+	t.deepEqual(path.urlToFilename("file:///C:/Users/foo/bar.js"), `C:/Users/foo/bar.js`);
+});
+
+test("Converting an URL to a local filename works properly. #2", async t => {
+	t.deepEqual(path.urlToFilename("file:///C:\\Users\\foo\\bar.js"), `C:/Users/foo/bar.js`);
+});
+
+test("Converting an URL to a local filename works properly. #3", async t => {
+	t.deepEqual(path.urlToFilename("file:///Users/foo/bar.js"), `/Users/foo/bar.js`);
 });
